@@ -1,5 +1,6 @@
 /*
 Christopher Haynes (FSC ID: 1239792)
+Brock Wilson
 CSC3380 - M5 Assignment 2
 20210404
  */
@@ -21,8 +22,6 @@ public class Algorithmstour {
 		// Create scanner to obtain user input
 		Scanner in = new Scanner(System.in);
 		
-		// Create adjacency matrix (Task 3)
-		
 		
 		// Create array to hold buildings
 		String[] buildingList = {
@@ -38,6 +37,10 @@ public class Algorithmstour {
 			"LP Ordway",
 			"Theatre ITR",
 		};
+		
+		// Create adjacency matrix (Task 3)
+		AdjMatrix graph = new AdjMatrix(buildingList.length);
+		
 		  
 		// Print intro message
 		printIntro();
@@ -48,50 +51,65 @@ public class Algorithmstour {
 			printMenu();
 			int mainMenuSelection = userInput(in);
 
-			// If user chose #1 - Generate All Subsets
-			if (mainMenuSelection == 1) {
-
-				// Print all subsets of building list
-				generateSubsets(buildingList);
+			// ----------
+			// MAIN MENU
+			// ----------
+			switch (mainMenuSelection) {
 				
-				// Get and print list of subsets
-				List<String> result = brgc(buildingList.length);
-				System.out.println("");
-				for (int i = 0; i < result.size(); i++) {
-					System.out.println(result.get(i));
-				}
-				System.out.println("");
-			}
-
-			// User selected option 2 from main menu (Start a Tour)
-			else if (mainMenuSelection == 2) {
-				System.out.println("");
-				
-				// Ask for num of buildings they want to visit
-				int numBuildings = getNumBuildingsInput(in);
-				
-				// Create Array that holds buildings desired by user
-				String[] requestedBldgs = new String[numBuildings];
-				
-				// Print list of buildings for user to see
-				System.out.println("");
-				printAllBuildings(buildingList);
-				
-				requestedBldgs = getDesiredBuildings(requestedBldgs, numBuildings, in);
-				
-				
-			}
-
-			// User elected to exit the program via option 3 of the main menu
-			else {
-				
-				// Print messages to user
-				System.out.println("");
-				System.out.println("Exiting Program...");
-				System.out.println("Goodbye!");
-				
-				// Throw flag to break from while loop
-				flag = true;
+				// ----------------------------
+				// OPTION 1 - GENERATE SUBSETS
+				// ----------------------------
+				case 1:
+					// Print all subsets of building list
+					generateSubsets(buildingList);
+					
+					// Get and print list of subsets
+					List<String> result = brgc(buildingList.length);
+					System.out.println("");
+					
+					for (int i = 0; i < result.size(); i++) {
+						System.out.println(result.get(i));
+					}	System.out.println("");
+					break;
+					
+				// ------------------------
+				// OPTION 2 - START A TOUR
+				// ------------------------
+				case 2:
+					System.out.println("");
+					
+					// Ask for num of buildings they want to visit
+					int numBuildings = getNumBuildingsInput(in);
+					
+					// Create Array that holds user selected buildings
+					int[] requestedBldgs = new int[numBuildings];
+					
+					// Print list of buildings for user to see
+					System.out.println("");
+					printAllBuildings(buildingList);
+					
+					// Get buildings that user wants to visit
+					requestedBldgs = getDesiredBuildings(requestedBldgs, numBuildings, in);
+					System.out.println("");
+					
+					// Print out the buildings that the user chose
+					printChosenBuildings(requestedBldgs, buildingList);
+					
+					break;
+					
+				// ------------------------
+				// OPTION 3 - EXIT PROGRAM
+				// ------------------------
+				default:
+					
+					// Print messages to user
+					System.out.println("");
+					System.out.println("Exiting Program...");
+					System.out.println("Goodbye!");
+					
+					// Throw flag to break from while loop
+					flag = true;
+					break;
 			}
 		}
     }
@@ -173,16 +191,27 @@ public class Algorithmstour {
 	/*
 	Purpose: Get list of desired bldgs to visit from user
 	*/
-	public static String[] getDesiredBuildings(String[] requestedBldgs, int numBuildings, Scanner in) {
+	public static int[] getDesiredBuildings(int[] requestedBldgs, int numBuildings, Scanner in) {
 		// For loop to obtain desired buildings from user
 		// loops until we reach desired num provided previously
 		System.out.println("Please enter each building you'd like to visit...");
 		for (int i = 0; i < numBuildings; i++) {
 			System.out.printf("%d: ", i+1);
-			String bldgChoice = in.next();
+			int bldgChoice = in.nextInt();
 			requestedBldgs[i] = bldgChoice;
 		}
 		return requestedBldgs;
+	}
+	
+	/*
+	Purpose: Print out the buildings that the user selected for their tour
+	*/
+	public static void printChosenBuildings(int[] requestedBldgs, String[] buildingList) {
+				System.out.println("You have selected the following buildings...");
+		for (int i = 0; i < requestedBldgs.length; i++) {
+			System.out.printf("%d. %s\n", i+1, buildingList[i]);
+		}
+		System.out.println("");
 	}
 	
 	
