@@ -2,7 +2,10 @@
 Christopher Haynes (FSC ID: 1239792)
 Brock Wilson
 CSC3380 - M5 Assignment 2
-20210404
+20210411
+
+Documentation --
+https://docs.google.com/document/d/18K3Xmr4B9mN02K525hkjJeEoXWnh6NqYuYJC-IPQ2XU/edit?usp=sharing
  */
 
 package algorithmstour;
@@ -24,17 +27,17 @@ public class Algorithmstour {
 		
 		// Create array to hold buildings
 		String[] buildingList = {
-			"W Admin", 
-			"B Admin",
-			"Water Dome",
-			"Raulerson",
-			"Buckner",
-			"AP Chapel",
-			"WD Chapel",
-			"Polk Science",
-			"Esplanades",
-			"LP Ordway",
-			"Theatre ITR",
+			"Emile A. Watson Administration Building", 
+			"Benjamin Fine Administration Building",
+			"The Water Dome",
+			"Thad Buckner Building",
+			"Annie Pfeiffer Chapel",
+			"William H. Danforth Chapel",
+			"Polk Science Building",
+			"The Esplanades",
+			"L.A. Raulerson Building/Three Seminars",
+			"Theatre-in-the-Round",
+			"Lucius Pond Ordway Building",
 		};
 		
 		// Create adjacency matrix (Task 3)
