@@ -29,7 +29,6 @@ public class AdjMatrix {
 	// --------------
 	//    METHODS
 	// --------------
-	
 	/*
 	Purpose: Add edges to our directed graph (Adjacency Matrix)
 	*/

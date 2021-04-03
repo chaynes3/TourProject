@@ -22,7 +22,6 @@ public class Algorithmstour {
 		// Create scanner to obtain user input
 		Scanner in = new Scanner(System.in);
 		
-		
 		// Create array to hold buildings
 		String[] buildingList = {
 			"W Admin", 
@@ -40,14 +39,15 @@ public class Algorithmstour {
 		
 		// Create adjacency matrix (Task 3)
 		AdjMatrix graph = new AdjMatrix(buildingList.length);
-		
 		  
 		// Print intro message
 		printIntro();
 		
-		
+		// ----------
+		// MAIN LOOP
+		// ----------
 		while (flag == false) {
-			// Print main menu and save user choice from main menu
+			
 			printMenu();
 			int mainMenuSelection = userInput(in);
 
