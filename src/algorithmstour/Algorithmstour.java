@@ -27,8 +27,10 @@ public class Algorithmstour {
 		
 		// Create array to hold buildings
 		String[] buildingList = {
-			"Emile A. Watson Administration Building", 
-			"Benjamin Fine Administration Building",
+			// These two are the 'Admissions' building from skippy
+			//"Emile A. Watson Administration Building", 
+			//"Benjamin Fine Administration Building",
+			"Administration", // Replacing above two buildings
 			"The Water Dome",
 			"Thad Buckner Building",
 			"Annie Pfeiffer Chapel",
@@ -36,7 +38,7 @@ public class Algorithmstour {
 			"Polk Science Building",
 			"The Esplanades",
 			"L.A. Raulerson Building/Three Seminars",
-			"Theatre-in-the-Round",
+			//"Theatre-in-the-Round", // Merged with ordway
 			"Lucius Pond Ordway Building",
 		};
 		
@@ -212,7 +214,7 @@ public class Algorithmstour {
 	public static void printChosenBuildings(int[] requestedBldgs, String[] buildingList) {
 				System.out.println("You have selected the following buildings...");
 		for (int i = 0; i < requestedBldgs.length; i++) {
-			System.out.printf("%d. %s\n", i+1, buildingList[i]);
+			System.out.printf("%d. %s\n", requestedBldgs[i], buildingList[requestedBldgs[i]-1]);
 		}
 		System.out.println("");
 	}
