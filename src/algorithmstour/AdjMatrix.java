@@ -7,7 +7,7 @@ CSC3380 - M5 Assignment 2
 
 package algorithmstour;
 
-
+// TEST TO SEE IF PUSH WORKS FINE
 public class AdjMatrix {
 	
 	// Variables needed for Adjacency Matrix (Represent weighted graph)
