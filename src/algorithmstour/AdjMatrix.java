@@ -21,8 +21,17 @@ public class AdjMatrix {
 	// -------------
 	public AdjMatrix(int totalNodes) {
 		this.totalNodes = totalNodes;
-		matrix = new int[totalNodes][totalNodes];
+		this.matrix = new int[totalNodes][totalNodes];
 		this.edgeWeight = 0;
+	}
+	// --------------
+	//    Getters
+	// --------------
+	public int[][] getMatrix() {
+		return this.matrix;
+	}
+	public int getTotalNodes() {
+		return this.totalNodes;
 	}
 	
 	
@@ -51,5 +60,22 @@ public class AdjMatrix {
 			System.out.println();
 		}
 		
-	}		
+	}
+	
+	/*
+	Purpose: Return a matrix with only specific requested edges from original matrix
+	*/
+	public AdjMatrix subMatrix(int[] indicies) {
+		AdjMatrix sub = new AdjMatrix(indicies.length);
+		for (int i=0; i<indicies.length; i++) {
+			for (int j=0; j<indicies.length; j++) {
+				if (i != j) {
+					sub.addEdge(i, j, this.getMatrix()[indicies[i]-1][indicies[j]-1]);
+				}
+			}
+		}
+		return sub;
+	}	
+
+
 }
