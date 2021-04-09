@@ -280,6 +280,9 @@ public class Algorithmstour {
 	
 	/*
 	Purpose: Check to ensure user-selected buildings all have edges
+	
+	Note: Check textbook page 124, last paragraph on page regarding the use
+			of DFS for verifying connectivity of a graph
 	*/
 	public static boolean isConnected(AdjMatrix tourGraph) {
 		int count = 0;
