@@ -27,9 +27,6 @@ public class Algorithmstour {
 		
 		// Create array to hold buildings
 		String[] buildingList = {
-			// NOTE: These two are the 'Admissions' building from skippy
-			//"Emile A. Watson Administration Building", 
-			//"Benjamin Fine Administration Building",
 			"Administration", // 0 // Replacing above two buildings
 			"The Water Dome", // 1
 			"Thad Buckner Building", // 2
