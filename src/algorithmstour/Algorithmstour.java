@@ -27,21 +27,45 @@ public class Algorithmstour {
 		
 		// Create array to hold buildings
 		String[] buildingList = {
-			"Emile A. Watson Administration Building", 
-			"Benjamin Fine Administration Building",
-			"The Water Dome",
-			"Thad Buckner Building",
-			"Annie Pfeiffer Chapel",
-			"William H. Danforth Chapel",
-			"Polk Science Building",
-			"The Esplanades",
-			"L.A. Raulerson Building/Three Seminars",
-			"Theatre-in-the-Round",
-			"Lucius Pond Ordway Building",
+			// NOTE: These two are the 'Admissions' building from skippy
+			//"Emile A. Watson Administration Building", 
+			//"Benjamin Fine Administration Building",
+			"Administration", // 0 // Replacing above two buildings
+			"The Water Dome", // 1
+			"Thad Buckner Building", // 2
+			"Annie Pfeiffer Chapel", // 3
+			"William H. Danforth Chapel", // 4
+			"Polk Science Building", // 5
+			"The Esplanades", // 6
+			"L.A. Raulerson Building/Three Seminars", // 7 // AKA financial
+			//"Theatre-in-the-Round", // Merged with ordway
+			"Lucius Pond Ordway Building", // 8
 		};
 		
 		// Create adjacency matrix (Task 3)
 		AdjMatrix graph = new AdjMatrix(buildingList.length);
+		// Annie Pfiefer -> ...
+		graph.addEdge(3, 4, 245);
+		graph.addEdge(3, 2, 222);
+		graph.addEdge(3, 6, 230);
+		// Polk Science -> ...
+		graph.addEdge(5, 3, 165);
+		graph.addEdge(5, 6, 334);
+		graph.addEdge(5, 2, 334);
+		graph.addEdge(5, 7, 175);
+		// Buckner -> ...
+		graph.addEdge(2, 0, 242);
+		// Admissions -> ...
+		graph.addEdge(0, 1, 101);
+		graph.addEdge(0, 7, 309);
+		// Waterdome -> ...
+		graph.addEdge(1, 7, 111);
+		// Ordway -> ...
+		graph.addEdge(8, 6, 444);
+		graph.addEdge(8, 7, 442);
+		graph.addEdge(8, 1, 553);
+
+		//graph.printMatrix();
 		  
 		// Print intro message
 		printIntro();
@@ -52,7 +76,7 @@ public class Algorithmstour {
 		while (flag == false) {
 			
 			printMenu();
-			int mainMenuSelection = userInput(in);
+			String mainMenuSelection = userInput(in);
 
 			// ----------
 			// MAIN MENU
@@ -62,23 +86,23 @@ public class Algorithmstour {
 				// ----------------------------
 				// OPTION 1 - GENERATE SUBSETS
 				// ----------------------------
-				case 1:
-					// Print all subsets of building list
-					generateSubsets(buildingList);
+				case "1":
+					// Calculate and print number of subsets
+					printSubsetHeader(buildingList.length);
 					
-					// Get and print list of subsets
-					List<String> result = brgc(buildingList.length);
+					// Generate subsets for buildingsList
+					List<String> allSubsets = brgc(buildingList.length);
 					System.out.println("");
 					
-					for (int i = 0; i < result.size(); i++) {
-						System.out.println(result.get(i));
+					for (int i = 0; i < allSubsets.size(); i++) {
+						System.out.println(allSubsets.get(i));
 					}	System.out.println("");
 					break;
 					
 				// ------------------------
 				// OPTION 2 - START A TOUR
 				// ------------------------
-				case 2:
+				case "2":
 					System.out.println("");
 					
 					// Ask for num of buildings they want to visit
@@ -92,16 +116,40 @@ public class Algorithmstour {
 					printAllBuildings(buildingList);
 					
 					// Get buildings that user wants to visit
-					requestedBldgs = getDesiredBuildings(requestedBldgs, numBuildings, in);
+					requestedBldgs = requestDesiredBuildings(requestedBldgs, numBuildings, in);
 					System.out.println("");
 					
 					// Print out the buildings that the user chose
 					printChosenBuildings(requestedBldgs, buildingList);
+
+
+
+					// Find optimal route
+
+					// Generate subsets for requestedBldgs
+					List<String> chosenSubsets = brgc(requestedBldgs.length);
+					System.out.println("");
+
+					// Make new Adjacency Matrix to host our requested buildings only
+					AdjMatrix tourGraph = graph.subMatrix(requestedBldgs);
+					
+					
+					break;
+
+				// ------------------------
+				// OPTION 3 - Display Adjacency Matrix
+				// ------------------------
+				case "3":
+					
+					// Print Adjacency Matrix
+					System.out.println();
+					graph.printMatrix();
+					System.out.println();
 					
 					break;
 					
 				// ------------------------
-				// OPTION 3 - EXIT PROGRAM
+				// OPTION 4 - EXIT PROGRAM
 				// ------------------------
 				default:
 					
@@ -137,9 +185,15 @@ public class Algorithmstour {
 	Purpose: Prints a menu for the user to make selections
 	*/
 	public static void printMenu() {
-		System.out.println("1. Generate All Subsets");
-		System.out.println("2. Start a Tour");
-		System.out.println("3. Exit the Program");
+		String[] options = {
+			"Generate All Subsets",
+			"Start a Tour",
+			"Display Adjacency Matrix",
+			"Exit the program"
+		};
+		for (int i = 0; i < options.length; i++) {
+			System.out.printf("%d. %s\n", i+1, options[i]);
+		}
 	}
 	
 	
@@ -170,13 +224,13 @@ public class Algorithmstour {
 	Purpose: Generate all possible subsets from the passed array.
 	Note: 2^n - 1, where n == num of buildings
 	*/
-	public static void generateSubsets(String[] buildingList) {
+	public static void printSubsetHeader(int numBuildings) {
 		
 		// Print result header
 		System.out.println("");
 		System.out.println("----------------------------");
 		System.out.printf("------- %d subsets -------\n", 
-				(int) Math.pow(2, buildingList.length));
+				(int) Math.pow(2, numBuildings));
 		System.out.println("----------------------------");
 		System.out.println("");
 	}
@@ -185,23 +239,22 @@ public class Algorithmstour {
 	/*
 	Purpose: Obtain/return user input for any numerical menu
 	*/
-	public static int userInput(Scanner in) {
+	public static String userInput(Scanner in) {
 		System.out.print("Please make your selection from the numbers above: ");
-		return in.nextInt();
+		return in.next();
 	}
 	
 	
 	/*
 	Purpose: Get list of desired bldgs to visit from user
 	*/
-	public static int[] getDesiredBuildings(int[] requestedBldgs, int numBuildings, Scanner in) {
+	public static int[] requestDesiredBuildings(int[] requestedBldgs, int numBuildings, Scanner in) {
 		// For loop to obtain desired buildings from user
 		// loops until we reach desired num provided previously
 		System.out.println("Please enter each building you'd like to visit...");
 		for (int i = 0; i < numBuildings; i++) {
-			System.out.printf("%d: ", i+1);
-			int bldgChoice = in.nextInt();
-			requestedBldgs[i] = bldgChoice;
+			System.out.printf("#%d, Building ID: ", i+1);
+			requestedBldgs[i] = in.nextInt();
 		}
 		return requestedBldgs;
 	}
@@ -210,13 +263,15 @@ public class Algorithmstour {
 	Purpose: Print out the buildings that the user selected for their tour
 	*/
 	public static void printChosenBuildings(int[] requestedBldgs, String[] buildingList) {
-				System.out.println("You have selected the following buildings...");
+		System.out.println("You have selected the following buildings...");
 		for (int i = 0; i < requestedBldgs.length; i++) {
-			System.out.printf("%d. %s\n", i+1, buildingList[i]);
+			System.out.printf("%d. %s\n", requestedBldgs[i], buildingList[requestedBldgs[i]-1]);
 		}
 		System.out.println("");
 	}
 	
+	
+
 	
 	/*
 	Purpose: Algorithm - Binary Reflected Gray Code of order n
