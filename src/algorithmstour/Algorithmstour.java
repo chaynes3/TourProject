@@ -171,8 +171,8 @@ public class Algorithmstour {
         System.out.println("");
         System.out.println("CSC3380 - M5 Assignment 2");
         System.out.println("Optimal Frank Lloyd Wright Tour");
-        System.out.println("Christopher Haynes (FSC ID: 1239792)");
-        System.out.println("March xx, 2021");
+        System.out.println("Christopher Haynes & Brock Wilson");
+        System.out.println("April 11th, 2021");
         System.out.println("");
         System.out.println("");
 	}
