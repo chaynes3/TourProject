@@ -129,8 +129,19 @@ public class Algorithmstour {
 
 					// Make new Adjacency Matrix to host our requested buildings only
 					AdjMatrix tourGraph = graph.subMatrix(requestedBldgs);
+					System.out.println("Adjacency Matrix depicting selected architecture");
+					tourGraph.printMatrix();
+					System.out.println("");
 					
 					
+					// Here we check to ensure the graph is connected.  
+					// If it isn't, we display an error message to the user.
+					if (!isConnected(tourGraph)) {
+						System.out.println("Sorry, one or more buildings doesn't have a path.");
+						System.out.println("");
+					}
+					
+
 					break;
 
 				// ------------------------
@@ -157,7 +168,6 @@ public class Algorithmstour {
 					
 					// Throw flag to break from while loop
 					flag = true;
-					break;
 			}
 		}
     }
@@ -268,7 +278,56 @@ public class Algorithmstour {
 	}
 	
 	
+	/*
+	Purpose: Check to ensure user-selected buildings all have edges
+	*/
+	public static boolean isConnected(AdjMatrix tourGraph) {
+		int count = 0;
+		
+		// Create list to mark nodes once they've been visited
+		// Make same length as numNodes in Matrix & set all to false
+		List<Boolean> visited = new ArrayList<>();
+		for (int i = 0; i < tourGraph.totalNodes; i++) {
+			visited.add(Boolean.FALSE);
+		}
+		
+		// Run DFS
+		dfs(tourGraph, visited, 0);
+		
+		// Iterate through visited list and count num of visited nodes
+		for (int i = 0; i < tourGraph.getTotalNodes(); i++) {
+			if (visited.get(i)) {
+				count++;
+			}
+		}
+		
+		// If num visited nodes match num of nodes, return true
+		// else return false
+		return count == tourGraph.getTotalNodes();
+		
+	}
+	
+	
+	/*
+	Purpose: Our implementation of DFS
+	*/
+	public static void dfs(AdjMatrix tourGraph, List<Boolean> visited, int count) {
 
+		// If we haven't visited the node, mark it visited
+		if (!visited.get(count)) { 
+			visited.set(count, Boolean.TRUE);
+			count++;
+			
+			// Loop over nodes in AdjMtx and recursively call dfs
+			for (int i = 0; i < tourGraph.getTotalNodes(); i++) {
+				if ((tourGraph.getMatrix()[count][i] >= 1) && !visited.get(i)) {
+					dfs(tourGraph, visited, count);
+				}
+			}
+		}
+		
+	}
+	
 	
 	/*
 	Purpose: Algorithm - Binary Reflected Gray Code of order n
@@ -304,6 +363,16 @@ public class Algorithmstour {
 		addOnes(result, tempList);
 				
 		return result;
+	}
+	
+	
+	/*
+	Purpose: To generate all permutations and check which has the lowest weight
+	
+	NOTE: Will need to be edited -- this is just a shell for when we're ready to complete..
+	*/
+	public static void checkAllPermutations() {
+		
 	}
 	
 	
