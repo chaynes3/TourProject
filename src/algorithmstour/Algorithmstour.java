@@ -318,7 +318,8 @@ public class Algorithmstour {
 			visited.set(count, Boolean.TRUE);
 			count++;
 			
-			// Loop over nodes in AdjMtx and recursively call dfs
+			// Loop over nodes in AdjMtx and recursively call dfs,
+			//   following edges and stopping on nodes that are not visited.
 			for (int i = 0; i < tourGraph.getTotalNodes(); i++) {
 				if ((tourGraph.getMatrix()[count][i] >= 1) && !visited.get(i)) {
 					dfs(tourGraph, visited, count);
