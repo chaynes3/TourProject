@@ -139,7 +139,10 @@ public class Algorithmstour {
 					if (!isConnected(tourGraph)) {
 						System.out.println("Sorry, one or more buildings doesn't have a path.");
 						System.out.println("");
+						break;
 					}
+					// We have a connected graph!
+					System.out.println("This graph is connected!");
 					
 
 					break;
@@ -155,9 +158,22 @@ public class Algorithmstour {
 					System.out.println();
 					
 					break;
+
+
+				// ------------------------
+				// OPTION 4 - Display Buildings
+				// ------------------------
+				case "4":
+					
+					// Print Adjacency Matrix
+					System.out.println();
+					printAllBuildings(buildingList);
+					System.out.println();
+					
+					break;
 					
 				// ------------------------
-				// OPTION 4 - EXIT PROGRAM
+				// OPTION 5 - EXIT PROGRAM
 				// ------------------------
 				default:
 					
@@ -196,6 +212,7 @@ public class Algorithmstour {
 			"Generate All Subsets",
 			"Start a Tour",
 			"Display Adjacency Matrix",
+			"Display the buildings",
 			"Exit the program"
 		};
 		for (int i = 0; i < options.length; i++) {
@@ -285,10 +302,8 @@ public class Algorithmstour {
 			of DFS for verifying connectivity of a graph
 	*/
 	public static boolean isConnected(AdjMatrix tourGraph) {
-		int count = 0;
 		
-		// Create list to mark nodes once they've been visited
-		// Make same length as numNodes in Matrix & set all to false
+		// Initialize a list to contain false values representing unvisited nodes
 		List<Boolean> visited = new ArrayList<>();
 		for (int i = 0; i < tourGraph.totalNodes; i++) {
 			visited.add(Boolean.FALSE);
@@ -297,16 +312,17 @@ public class Algorithmstour {
 		// Run DFS
 		dfs(tourGraph, visited, 0);
 		
-		// Iterate through visited list and count num of visited nodes
-		for (int i = 0; i < tourGraph.getTotalNodes(); i++) {
-			if (visited.get(i)) {
-				count++;
+		// Check to see that all nodes were visited
+		for (int i = 0; i < visited.size(); i++) {
+			// If we have an element that is false, our graph is not connected
+			if (visited.get(i) == false) {
+				return false;
 			}
 		}
+		// If we made it this far, we have a connected graph!
+		return true;
 		
-		// If num visited nodes match num of nodes, return true
-		// else return false
-		return count == tourGraph.getTotalNodes();
+		
 		
 	}
 	
@@ -314,20 +330,22 @@ public class Algorithmstour {
 	/*
 	Purpose: Our implementation of DFS
 	*/
-	public static void dfs(AdjMatrix tourGraph, List<Boolean> visited, int count) {
-
-		// If we haven't visited the node, mark it visited
-		if (!visited.get(count)) { 
-			visited.set(count, Boolean.TRUE);
-			count++;
+	public static void dfs(AdjMatrix tourGraph, List<Boolean> visited, int row) {
+		
+		// If we haven't visited this node, visit it
+		if (!visited.get(row)) {
+			visited.set(row, true);
 			
-			// Loop over nodes in AdjMtx and recursively call dfs,
-			//   following edges and stopping on nodes that are not visited.
-			for (int i = 0; i < tourGraph.getTotalNodes(); i++) {
-				if ((tourGraph.getMatrix()[count][i] >= 1) && !visited.get(i)) {
-					dfs(tourGraph, visited, count);
+			int[] parent = tourGraph.getMatrix()[row];
+			// Search through parent
+			for (int col = 0; col < parent.length; col++) {
+				// If child exists, call dfs on it
+				if (parent[col] > 0) {
+					dfs(tourGraph, visited, col);
 				}
+				
 			}
+			
 		}
 		
 	}
