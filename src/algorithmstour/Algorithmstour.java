@@ -27,15 +27,15 @@ public class Algorithmstour {
 		
 		// Create array to hold buildings
 		String[] buildingList = {
-			"Administration", // 0 // Replacing above two buildings
+			"Administration", // 0 
 			"The Water Dome", // 1
 			"Thad Buckner Building", // 2
 			"Annie Pfeiffer Chapel", // 3
 			"William H. Danforth Chapel", // 4
 			"Polk Science Building", // 5
 			"The Esplanades", // 6
-			"L.A. Raulerson Building/Three Seminars", // 7 // AKA financial
-			//"Theatre-in-the-Round", // Merged with ordway
+			"L.A. Raulerson Building/Three Seminars", // 7 (AKA financial)
+			//"Theatre-in-the-Round" -> (Merged with ordway)
 			"Lucius Pond Ordway Building", // 8
 		};
 		
@@ -373,10 +373,13 @@ public class Algorithmstour {
 	/*
 	Purpose: To generate all permutations and check which has the lowest weight
 	
-	NOTE: Will need to be edited -- this is just a shell for when we're ready to complete..
+	NOTE: In progress...algorithm in textbook, page 146
 	*/
-	public static void checkAllPermutations() {
+	public static List<Integer> checkAllPermutations(int n) {
 		
+		// If we even need this...not sure how to store the permutations yet
+		List<Integer> results = new ArrayList<>();
+		return results;
 	}
 	
 	
