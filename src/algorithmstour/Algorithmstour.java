@@ -477,30 +477,60 @@ public class Algorithmstour {
 	/*
 	Purpose: Find the optimal route
 	*/
-//	public static String[] findOptimalRoute(AdjMatrix tourGraph) {
-//
-//		// Get permutations
-//		List<Integer> permutations = checkAllPermutations(tourGraph.getMatrix().length);
-//
-//		// Initialize smallest found value
-//		int smallest = Integer.MAX_VALUE;
-//		
-//		// LOOP thru permutations
-//		for (int i = 0; i < permutations.size(); i++) {
-//			// If this permutation is smaller than smallest
-//			if (sumArray(permutations.get(i)) < smallest) 
-//				
-//		}	
-//	}
+	public static String[] findOptimalRoute(AdjMatrix tourGraph) {
+
+		// Get permutations
+		// CHANGE HERE, NEEDS TO BE 2D LIST SOMEHOW
+		List<Integer> permutations = checkAllPermutations(tourGraph.getMatrix().length);
+
+		// Initialize smallest found value
+		int smallestSum = Integer.MAX_VALUE;
+		
+		// LOOP thru permutations
+		for (int i = 0; i < permutations.size(); i++) {
+			
+			// Gather edges from graph
+			List<Integer> edges = getEdges(tourGraph, permutations.get(i));
+			int sum = sumEdges(edges);
+			// If this permutation has a sum of edges smaller than the current smallest sum
+			if (0 < sum && sum < smallestSum) {
+				smallestSum = sum;
+			}
+				
+		}	
+	}
 	
 	
-	public static int sumArray(int[] array) {
+	public static int sumEdges(List<Integer> edges) {
 		int sum = 0;
-		for (int i = 0; i < array.length; i++) {
-			sum += array[i];
+		for (int i = 0; i < edges.size(); i++) {
+			sum += edges.get(i);
 		}
 		return sum;
 	}
+
+	public static List<Integer> getEdges(AdjMatrix tourGraph, List<Integer> permutation) {
+
+		// Initialize perm index. if array is [2, 3, 1], the permindex is 1
+		int permIndex = permutation.get(0)-1;
+		// Set parent to current permutation start
+		int[] parent = tourGraph.getMatrix()[permIndex];
+
+
+		// Initialize edges we may find
+		List<Integer> edges = new ArrayList<>();
+		// Loop through children of parent
+		for (int i = 1; i < parent.length; i++) {
+			// Change permIndex to be the child of start node
+			permIndex = permutation.get(i)-1;
+			// Check to see if our child has an edge to parent
+			if (parent[permIndex] != 0) {
+				edges.add(parent[permIndex]);
+			}
+		}
+		return edges;
+	}
+
 
 	
 }
