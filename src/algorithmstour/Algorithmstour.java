@@ -14,7 +14,6 @@ package algorithmstour;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Arrays;
@@ -22,21 +21,21 @@ import java.util.Arrays;
 
 
 public class Algorithmstour {
-
+	
 	// Declare global var for permutations
 	public static List<int[]> perms = new ArrayList<>();
 
     public static void main(String[] args) {
-
+		
 		// While user has not chosen to exit the program
 		boolean flag = false;
-
+		
 		// Create scanner to obtain user input
 		Scanner in = new Scanner(System.in);
-
+		
 		// Create array to hold buildings
 		String[] buildingList = {
-			"Administration", // 0
+			"Administration", // 0 
 			"The Water Dome", // 1
 			"Thad Buckner Building", // 2
 			"Annie Pfeiffer Chapel", // 3
@@ -47,7 +46,7 @@ public class Algorithmstour {
 			//"Theatre-in-the-Round" -> (Merged with ordway)
 			"Lucius Pond Ordway Building", // 8
 		};
-
+		
 		// Create adjacency matrix (Task 3)
 		AdjMatrix graph = new AdjMatrix(buildingList.length);
 		// Annie Pfiefer -> ...
@@ -72,15 +71,15 @@ public class Algorithmstour {
 		graph.addEdge(8, 1, 553);
 
 		//graph.printMatrix();
-
+		  
 		// Print intro message
 		printIntro();
-
+		
 		// ----------
 		// MAIN LOOP
 		// ----------
 		while (flag == false) {
-
+			
 			printMenu();
 			String mainMenuSelection = userInput(in);
 
@@ -88,61 +87,54 @@ public class Algorithmstour {
 			// MAIN MENU
 			// ----------
 			switch (mainMenuSelection) {
-
+				
 				// ----------------------------
 				// OPTION 1 - GENERATE SUBSETS
 				// ----------------------------
 				case "1":
 					// Calculate and print number of subsets
 					printSubsetHeader(buildingList.length);
-
+					
 					// Generate subsets for buildingsList
 					List<String> allSubsets = brgc(buildingList.length);
 					System.out.println("");
-
+					
 					printSubsets(allSubsets);
 					break;
-
+					
 				// ------------------------
 				// OPTION 2 - START A TOUR
 				// ------------------------
 				case "2":
 					System.out.println("");
-
+					
 					// Ask for num of buildings they want to visit
 					int numBuildings = getNumBuildingsInput(in);
-
+					
 					// Create Array that holds user selected buildings
 					int[] requestedBldgs = new int[numBuildings];
-
+					
 					// Print list of buildings for user to see
 					System.out.println("");
 					printAllBuildings(buildingList);
-
+					
 					// Get buildings that user wants to visit
 					requestedBldgs = requestDesiredBuildings(requestedBldgs, numBuildings, in);
 					System.out.println("");
-
+					
 					// Print out the buildings that the user chose
 					printChosenBuildings(requestedBldgs, buildingList);
 
-
-					// Generate subsets for requestedBldgs
-					List<String> chosenSubsets = brgc(requestedBldgs.length);
-					System.out.println("");
-					System.out.println("All possible subsets: ");
-					System.out.println("");
-					printSubsets(chosenSubsets);
-
+					
 
 					// Make new Adjacency Matrix to host our requested buildings only
 					AdjMatrix tourGraph = graph.subMatrix(requestedBldgs);
 					System.out.println("Adjacency Matrix depicting selected architecture");
 					tourGraph.printMatrix();
 					System.out.println("");
-
-
-					// Here we check to ensure the graph is connected.
+					
+					
+					// Here we check to ensure the graph is connected.  
 					// If it isn't, we display an error message to the user.
 					if (!isConnected(tourGraph)) {
 						System.out.println("Sorry, one or more buildings doesn't have a path.");
@@ -152,29 +144,35 @@ public class Algorithmstour {
 					// We have a connected graph!
 					System.out.println("This graph is connected!");
 					System.out.println("");
-
-
+					
+					
 					// Find optimal route
 					int[] route = findOptimalRoute(tourGraph);
-
+					
+					System.out.println("Your tour below in optimal route:\n");
+					System.out.print("From Indicies of sub-matrix: ");
 					for (int i = 0; i < route.length; i++) {
 						System.out.print(route[i]);
 					}
-
+					System.out.println("\n\nIndicies converted to buildings:");
+					for (int i = 0; i < route.length; i++) {
+						System.out.println(i+1 + ". " + (buildingList[requestedBldgs[ route[i]-1]-1]));
+					}
+					
 					System.out.println("\n");
-
+					flag = true;
 					break;
 
 				// ------------------------
 				// OPTION 3 - Display Adjacency Matrix
 				// ------------------------
 				case "3":
-
+					
 					// Print Adjacency Matrix
 					System.out.println();
 					graph.printMatrix();
 					System.out.println();
-
+					
 					break;
 
 
@@ -182,31 +180,31 @@ public class Algorithmstour {
 				// OPTION 4 - Display Buildings
 				// ------------------------
 				case "4":
-
+					
 					// Print Adjacency Matrix
 					System.out.println();
 					printAllBuildings(buildingList);
 					System.out.println();
-
+					
 					break;
-
+					
 				// ------------------------
 				// OPTION 5 - EXIT PROGRAM
 				// ------------------------
 				default:
-
+					
 					// Print messages to user
 					System.out.println("");
 					System.out.println("Exiting Program...");
 					System.out.println("Goodbye!");
-
+					
 					// Throw flag to break from while loop
 					flag = true;
 			}
 		}
     }
-
-
+	
+	
 	/*
 	Purpose: Prints the assignment details and student info
 	*/
@@ -228,8 +226,8 @@ public class Algorithmstour {
 			System.out.println(subsets.get(i));
 		}	System.out.println("");
 	}
-
-
+	
+	
 	/*
 	Purpose: Prints a menu for the user to make selections
 	*/
@@ -245,8 +243,8 @@ public class Algorithmstour {
 			System.out.printf("%d. %s\n", i+1, options[i]);
 		}
 	}
-
-
+	
+	
 	/*
 	Purpose: Print list of buildings for user to see
 	*/
@@ -256,36 +254,36 @@ public class Algorithmstour {
 		}
 		System.out.println("");
 	}
-
-
+	
+	
 	/*
 	Purpose: Ask the user how many bldgs they want to visit
 	*/
 	public static int getNumBuildingsInput(Scanner in) {
-
+		
 		// Print user messages/directions
 		System.out.println("How many buildings would you like to visit on your tour?");
 		System.out.print("Please enter a number from 3 to 6 --> ");
 		return in.nextInt();
 	}
-
-
+	
+	
 	/*
 	Purpose: Generate all possible subsets from the passed array.
 	Note: 2^n - 1, where n == num of buildings
 	*/
 	public static void printSubsetHeader(int numBuildings) {
-
+		
 		// Print result header
 		System.out.println("");
 		System.out.println("----------------------------");
-		System.out.printf("------- %d subsets -------\n",
+		System.out.printf("------- %d subsets -------\n", 
 				(int) Math.pow(2, numBuildings));
 		System.out.println("----------------------------");
 		System.out.println("");
 	}
-
-
+	
+	
 	/*
 	Purpose: Obtain/return user input for any numerical menu
 	*/
@@ -293,8 +291,8 @@ public class Algorithmstour {
 		System.out.print("Please make your selection from the numbers above: ");
 		return in.next();
 	}
-
-
+	
+	
 	/*
 	Purpose: Get list of desired bldgs to visit from user
 	*/
@@ -308,7 +306,7 @@ public class Algorithmstour {
 		}
 		return requestedBldgs;
 	}
-
+	
 	/*
 	Purpose: Print out the buildings that the user selected for their tour
 	*/
@@ -319,25 +317,25 @@ public class Algorithmstour {
 		}
 		System.out.println("");
 	}
-
-
+	
+	
 	/*
 	Purpose: Check to ensure user-selected buildings all have edges
-
+	
 	Note: Check textbook page 124, last paragraph on page regarding the use
 			of DFS for verifying connectivity of a graph
 	*/
 	public static boolean isConnected(AdjMatrix tourGraph) {
-
+		
 		// Initialize a list to contain false values representing unvisited nodes
 		List<Boolean> visited = new ArrayList<>();
 		for (int i = 0; i < tourGraph.totalNodes; i++) {
 			visited.add(Boolean.FALSE);
 		}
-
+		
 		// Run DFS
 		dfs(tourGraph, visited, 0);
-
+		
 		// Check to see that all nodes were visited
 		for (int i = 0; i < visited.size(); i++) {
 			// If we have an element that is false, our graph is not connected
@@ -347,21 +345,21 @@ public class Algorithmstour {
 		}
 		// If we made it this far, we have a connected graph!
 		return true;
-
-
-
+		
+		
+		
 	}
-
-
+	
+	
 	/*
 	Purpose: Our implementation of DFS
 	*/
 	public static void dfs(AdjMatrix tourGraph, List<Boolean> visited, int row) {
-
+		
 		// If we haven't visited this node, visit it
 		if (!visited.get(row)) {
 			visited.set(row, true);
-
+			
 			int[] parent = tourGraph.getMatrix()[row];
 			// Search through parent
 			for (int col = 0; col < parent.length; col++) {
@@ -369,38 +367,38 @@ public class Algorithmstour {
 				if (parent[col] > 0) {
 					dfs(tourGraph, visited, col);
 				}
-
+				
 			}
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	/*
 	Purpose: Algorithm - Binary Reflected Gray Code of order n
 	Note: This algorithm generates all bitstring subsets
 	*/
 	public static List<String> brgc(int n) {
-
+		
 		// Base Case #1
 		if (n == 0) {
 			List<String> base1List = new ArrayList<>();
 			base1List.add("0");
 			return base1List;
 		}
-
+		
 		// Base Case #2
 		if (n == 1) {
 			List<String> base2List = new ArrayList<>();
 			base2List.add("0");
 			base2List.add("1");
-			return base2List;
+			return base2List;			
 		}
-
+		
 		// Recursive call saved into list
 		List<String> tempList = brgc(n - 1);
-
+		
 		// Create list to hold results
 		List<String> result = new ArrayList<>();
 
@@ -409,38 +407,43 @@ public class Algorithmstour {
 
 		// Add ones
 		addOnes(result, tempList);
-
+				
 		return result;
 	}
-
-
-
-
-
+	
+	
+	
+	
+	
 	/*
 	Purpose: To generate all permutations and check which has the lowest weight
-
+	
 	NOTE: In progress...algorithm in textbook, page 146
 	*/
 	public static void checkAllPermutations(int[] a, int n) {
-
+		
+		
 		if (n == 1) {
 			perms.add(Arrays.copyOf(a, a.length));
-
+			
 		} else {
+			
 			for (int i = 0; i < n; i++) {
-
+				
 				// Recursive call
 				checkAllPermutations(a, n-1);
-
+				
 				// If n is odd
 				if (n % 2 != 0) {
-
+					
+					//swap A[1] and A[n] 
 					int temp = a[0];
 					a[0] = a[n-1];
 					a[n-1] = temp;
-
+					
 				} else {
+					
+					//swap A[i] and A[n]
 					int temp = a[i];
 					a[i] = a[n-1];
 					a[n-1] = temp;
@@ -448,8 +451,8 @@ public class Algorithmstour {
 			}
 		}
 	}
-
-
+	
+	
 	/*
 	Purpose: Based on Subset Generating Algorithm (Binary Reflected Gray Code),
 			add zeros in front of each bit string
@@ -461,8 +464,8 @@ public class Algorithmstour {
 		}
 		return result;
 	}
-
-
+	
+	
 	/*
 	Purpose: Based on Subset Generating Algorithm (Binary Reflected Gray Code),
 			add ones in front of each bit string
@@ -472,7 +475,7 @@ public class Algorithmstour {
 			String tempString = tempList.get(i);
 			result.add("1" + tempString);
 		}
-
+		
 		return result;
 	}
 
@@ -486,7 +489,7 @@ public class Algorithmstour {
 		for (int i = 0; i < tourGraph.getMatrix().length; i++) {
 			a[i] = i+1;
 		}
-
+		
 		checkAllPermutations(a, tourGraph.getMatrix().length);
 
 		// Initialize smallest found value
@@ -494,29 +497,27 @@ public class Algorithmstour {
 		int smallestInd = -1;
 		// LOOP thru permutations
 		for (int i = 0; i < perms.size(); i++) {
-
+			
 			// Gather edges from graph
 			//System.out.println(perms.get(0).length);
 			List<Integer> edges = getEdges(tourGraph, perms.get(i));
-
-
+			
 			if (edges.size() != perms.get(0).length-1) continue;
-
+			
 			int sum = sumEdges(edges);
-
-
+			
 			// If this permutation has a sum of edges smaller than the current smallest sum
 			if (sum < smallestSum) {
 				smallestSum = sum;
 				smallestInd = i;
 			}
-
+				
 		}
-
+		
 		return perms.get(smallestInd);
 	}
-
-
+	
+	
 	public static int sumEdges(List<Integer> edges) {
 		int sum = 0;
 		for (int i = 0; i < edges.size(); i++) {
@@ -535,19 +536,19 @@ public class Algorithmstour {
 
 		// Initialize edges we may find
 		List<Integer> edges = new ArrayList<>();
-
+		
 		// Loop through children of parent
 		for (int i = 1; i < parent.length; i++) {
 			// Change permIndex to be the child of start node
 			matrixInd = permutation[i] - 1;
-
+			
 			// Check to see if our child has an edge to parent
 			if (parent[matrixInd] != 0) {
 				edges.add(parent[matrixInd]);
 				parent = tourGraph.getMatrix()[matrixInd];
 			}
 		}
-
+		
 		if (edges.size() == permutation.length-1) {
 			return edges;
 		}
@@ -561,5 +562,7 @@ public class Algorithmstour {
 	}
 
 
-
+	
 }
+
+
