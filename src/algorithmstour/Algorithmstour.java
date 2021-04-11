@@ -10,10 +10,13 @@ https://docs.google.com/document/d/18K3Xmr4B9mN02K525hkjJeEoXWnh6NqYuYJC-IPQ2XU/
 
 package algorithmstour;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
+
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Arrays;
 
 
 
@@ -150,19 +153,13 @@ public class Algorithmstour {
 					System.out.println("");
 					
 					// Find optimal route
-					int[] testArray = {1,2,3};
-					checkAllPermutations(testArray, numBuildings);
-					//List<Integer> permutationResults = 
-					System.out.println("Would you like to print list of permutations? Y or N");
-					String response = in.next();
-					if (response.equalsIgnoreCase("Y")) {
-						for (int i = 0; i < perms.size(); i++) {
-							int[] accessedArray = perms.get(i);
-							for (int j = 0; j < accessedArray.length; j++) {
-								System.out.print(accessedArray[j]);
-							}
-						}
+					int[] route = findOptimalRoute(tourGraph);
+					
+					for (int i = 0; i < route.length; i++) {
+						System.out.print(route[i]);
 					}
+					
+					System.out.println("\n");
 					
 					break;
 
@@ -427,7 +424,7 @@ public class Algorithmstour {
 		
 		
 		if (n == 1) {
-			perms.add(a);
+			perms.add(Arrays.copyOf(a, a.length));
 			
 		} else {
 			
@@ -485,27 +482,41 @@ public class Algorithmstour {
 	/*
 	Purpose: Find the optimal route
 	*/
-	public static String[] findOptimalRoute(AdjMatrix tourGraph) {
+	public static int[] findOptimalRoute(AdjMatrix tourGraph) {
 
 		// Get permutations
-		// CHANGE HERE, NEEDS TO BE 2D LIST SOMEHOW
-		List<Integer> permutations = checkAllPermutations(tourGraph.getMatrix().length);
+		int[] a = new int[tourGraph.getMatrix().length];
+		for (int i = 0; i < tourGraph.getMatrix().length; i++) {
+			a[i] = i+1;
+		}
+
+		checkAllPermutations(a, tourGraph.getMatrix().length);
 
 		// Initialize smallest found value
 		int smallestSum = Integer.MAX_VALUE;
-		
+		int smallestInd = -1;
 		// LOOP thru permutations
-		for (int i = 0; i < permutations.size(); i++) {
+		for (int i = 0; i < perms.size(); i++) {
 			
 			// Gather edges from graph
-			List<Integer> edges = getEdges(tourGraph, permutations.get(i));
+			//System.out.println(perms.get(0).length);
+			List<Integer> edges = getEdges(tourGraph, perms.get(i));
+			
+			
+			if (edges.size() != perms.get(0).length-1) continue;
+			
 			int sum = sumEdges(edges);
+			
+			
 			// If this permutation has a sum of edges smaller than the current smallest sum
-			if (0 < sum && sum < smallestSum) {
+			if (sum < smallestSum) {
 				smallestSum = sum;
+				smallestInd = i;
 			}
 				
-		}	
+		}
+		
+		return perms.get(smallestInd);
 	}
 	
 	
@@ -517,26 +528,39 @@ public class Algorithmstour {
 		return sum;
 	}
 
-	public static List<Integer> getEdges(AdjMatrix tourGraph, List<Integer> permutation) {
+	public static List<Integer> getEdges(AdjMatrix tourGraph, int[] permutation) {
 
 		// Initialize perm index. if array is [2, 3, 1], the permindex is 1
-		int permIndex = permutation.get(0)-1;
+		int matrixInd = permutation[0]-1;
 		// Set parent to current permutation start
-		int[] parent = tourGraph.getMatrix()[permIndex];
-
+		// PARENT = [0, 111, 201]
+		int[] parent = tourGraph.getMatrix()[matrixInd];
 
 		// Initialize edges we may find
 		List<Integer> edges = new ArrayList<>();
+		
 		// Loop through children of parent
 		for (int i = 1; i < parent.length; i++) {
 			// Change permIndex to be the child of start node
-			permIndex = permutation.get(i)-1;
+			matrixInd = permutation[i] - 1;
+			
 			// Check to see if our child has an edge to parent
-			if (parent[permIndex] != 0) {
-				edges.add(parent[permIndex]);
+			if (parent[matrixInd] != 0) {
+				edges.add(parent[matrixInd]);
+				parent = tourGraph.getMatrix()[matrixInd];
 			}
 		}
-		return edges;
+		
+		if (edges.size() == permutation.length-1) {
+			return edges;
+		}
+		return new ArrayList<>();
+	}
+
+	public static void printList(List<int[]> temp) {
+		for (int i = 0; i < temp.size(); i++) {
+			System.out.println(" " + temp.get(i)[0] + temp.get(i)[1] + temp.get(i)[2]);
+		}
 	}
 
 
