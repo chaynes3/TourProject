@@ -91,9 +91,7 @@ public class Algorithmstour {
 					List<String> allSubsets = brgc(buildingList.length);
 					System.out.println("");
 					
-					for (int i = 0; i < allSubsets.size(); i++) {
-						System.out.println(allSubsets.get(i));
-					}	System.out.println("");
+					printSubsets(allSubsets);
 					break;
 					
 				// ------------------------
@@ -121,11 +119,11 @@ public class Algorithmstour {
 
 
 
-					// Find optimal route
-
 					// Generate subsets for requestedBldgs
 					List<String> chosenSubsets = brgc(requestedBldgs.length);
 					System.out.println("");
+					printSubsets(chosenSubsets);
+					
 
 					// Make new Adjacency Matrix to host our requested buildings only
 					AdjMatrix tourGraph = graph.subMatrix(requestedBldgs);
@@ -143,7 +141,9 @@ public class Algorithmstour {
 					}
 					// We have a connected graph!
 					System.out.println("This graph is connected!");
+					System.out.println("");
 					
+					// Find optimal route
 
 					break;
 
@@ -201,6 +201,14 @@ public class Algorithmstour {
         System.out.println("April 11th, 2021");
         System.out.println("");
         System.out.println("");
+	}
+	/*
+	Purpose: Prints all items from a list, made for subsets
+	*/
+	public static void printSubsets(List<String> subsets) {
+		for (int i = 0; i < subsets.size(); i++) {
+			System.out.println(subsets.get(i));
+		}	System.out.println("");
 	}
 	
 	
@@ -410,7 +418,6 @@ public class Algorithmstour {
 			String tempString = tempList.get(i);
 			result.add("0" + tempString);
 		}
-		
 		return result;
 	}
 	
@@ -427,6 +434,35 @@ public class Algorithmstour {
 		
 		return result;
 	}
-	
 
+	/*
+	Purpose: Find the optimal route
+	*/
+	public static String[] findOptimalRoute(AdjMatrix tourGraph) {
+
+		// Get permutations
+		int[] permutations = permutate(tourGraph.getMatrix().length);
+
+
+		// Initialize smallest found value
+		int smallest = Integer.MAX_VALUE;
+		// LOOP thru permutations
+		for (int i = 0; i < permutations.size(); i++) {
+			// If this permutation is smaller than smallest
+			if (sumArray(permutations.get(i)) < smallest) 
+				
+		}	
+	}
+	
+	public static int sumArray(int[] array) {
+		int sum = 0;
+		for (int i = 0; i < array.length; i++) {
+			sum += array[i];
+		}
+		return sum;
+	}
+
+	
 }
+
+
