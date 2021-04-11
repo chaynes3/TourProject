@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class Algorithmstour {
 	
 	// Declare global var for permutations
-	public static List<Integer> perms = new ArrayList<>();
+	public static List<int[]> perms = new ArrayList<>();
 
     public static void main(String[] args) {
 		
@@ -123,9 +123,10 @@ public class Algorithmstour {
 					printChosenBuildings(requestedBldgs, buildingList);
 
 
-
 					// Generate subsets for requestedBldgs
 					List<String> chosenSubsets = brgc(requestedBldgs.length);
+					System.out.println("");
+					System.out.println("All possible subsets: ");
 					System.out.println("");
 					printSubsets(chosenSubsets);
 					
@@ -149,11 +150,18 @@ public class Algorithmstour {
 					System.out.println("");
 					
 					// Find optimal route
-					List<Integer> permutationResults = checkAllPermutations(numBuildings);
+					int[] testArray = {1,2,3};
+					checkAllPermutations(testArray, numBuildings);
+					//List<Integer> permutationResults = 
 					System.out.println("Would you like to print list of permutations? Y or N");
 					String response = in.next();
 					if (response.equalsIgnoreCase("Y")) {
-						permutationResults.toString();
+						for (int i = 0; i < perms.size(); i++) {
+							int[] accessedArray = perms.get(i);
+							for (int j = 0; j < accessedArray.length; j++) {
+								System.out.print(accessedArray[j]);
+							}
+						}
 					}
 					
 					break;
@@ -415,38 +423,36 @@ public class Algorithmstour {
 	
 	NOTE: In progress...algorithm in textbook, page 146
 	*/
-	public static List<Integer> checkAllPermutations(int n) {
+	public static void checkAllPermutations(int[] a, int n) {
 		
-		List<Integer> results = new ArrayList<>();
 		
 		if (n == 1) {
-			results.add(n);
+			perms.add(a);
 			
 		} else {
 			
-			for (int i = 1; i <= n; i++) {
+			for (int i = 0; i < n; i++) {
 				
 				// Recursive call
-				checkAllPermutations(n-1);
+				checkAllPermutations(a, n-1);
 				
 				// If n is odd
 				if (n % 2 != 0) {
 					
 					//swap A[1] and A[n] 
-					int temp = perms.get(1);
-					perms.add(1, perms.get(n));
-					perms.add(n, temp);
+					int temp = a[0];
+					a[0] = a[n-1];
+					a[n-1] = temp;
 					
 				} else {
 					
 					//swap A[i] and A[n]
-					int temp = perms.get(i);
-					perms.add(i, perms.get(n));
-					perms.add(n, temp);
+					int temp = a[i];
+					a[i] = a[n-1];
+					a[n-1] = temp;
 				}
 			}
 		}
-		return results;
 	}
 	
 	
@@ -479,21 +485,21 @@ public class Algorithmstour {
 	/*
 	Purpose: Find the optimal route
 	*/
-	public static String[] findOptimalRoute(AdjMatrix tourGraph) {
-
-		// Get permutations
-		List<Integer> permutations = checkAllPermutations(tourGraph.getMatrix().length);
-
-		// Initialize smallest found value
-		int smallest = Integer.MAX_VALUE;
-		
-		// LOOP thru permutations
-		for (int i = 0; i < permutations.size(); i++) {
-			// If this permutation is smaller than smallest
-			if (sumArray(permutations.get(i)) < smallest) 
-				
-		}	
-	}
+//	public static String[] findOptimalRoute(AdjMatrix tourGraph) {
+//
+//		// Get permutations
+//		List<Integer> permutations = checkAllPermutations(tourGraph.getMatrix().length);
+//
+//		// Initialize smallest found value
+//		int smallest = Integer.MAX_VALUE;
+//		
+//		// LOOP thru permutations
+//		for (int i = 0; i < permutations.size(); i++) {
+//			// If this permutation is smaller than smallest
+//			if (sumArray(permutations.get(i)) < smallest) 
+//				
+//		}	
+//	}
 	
 	
 	public static int sumArray(int[] array) {
