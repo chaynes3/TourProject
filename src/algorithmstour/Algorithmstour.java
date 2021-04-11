@@ -150,7 +150,12 @@ public class Algorithmstour {
 					
 					// Find optimal route
 					List<Integer> permutationResults = checkAllPermutations(numBuildings);
-					permutationResults.toString();
+					System.out.println("Would you like to print list of permutations? Y or N");
+					String response = in.next();
+					if (response.equalsIgnoreCase("Y")) {
+						permutationResults.toString();
+					}
+					
 					break;
 
 				// ------------------------
@@ -474,21 +479,21 @@ public class Algorithmstour {
 	/*
 	Purpose: Find the optimal route
 	*/
-//	public static String[] findOptimalRoute(AdjMatrix tourGraph) {
-//
-//		// Get permutations
-//		List<Integer> permutations = checkAllPermutations(tourGraph.getMatrix().length);
-//
-//		// Initialize smallest found value
-//		int smallest = Integer.MAX_VALUE;
-//		
-//		// LOOP thru permutations
-//		for (int i = 0; i < permutations.size(); i++) {
-//			// If this permutation is smaller than smallest
-//			if (sumArray(permutations.get(i)) < smallest) 
-//				
-//		}	
-//	}
+	public static String[] findOptimalRoute(AdjMatrix tourGraph) {
+
+		// Get permutations
+		List<Integer> permutations = checkAllPermutations(tourGraph.getMatrix().length);
+
+		// Initialize smallest found value
+		int smallest = Integer.MAX_VALUE;
+		
+		// LOOP thru permutations
+		for (int i = 0; i < permutations.size(); i++) {
+			// If this permutation is smaller than smallest
+			if (sumArray(permutations.get(i)) < smallest) 
+				
+		}	
+	}
 	
 	
 	public static int sumArray(int[] array) {
