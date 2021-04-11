@@ -10,12 +10,17 @@ https://docs.google.com/document/d/18K3Xmr4B9mN02K525hkjJeEoXWnh6NqYuYJC-IPQ2XU/
 
 package algorithmstour;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 
+
 public class Algorithmstour {
+	
+	// Declare global var for permutations
+	public static List<Integer> perms = new ArrayList<>();
 
     public static void main(String[] args) {
 		
@@ -144,7 +149,8 @@ public class Algorithmstour {
 					System.out.println("");
 					
 					// Find optimal route
-
+					List<Integer> permutationResults = checkAllPermutations(numBuildings);
+					permutationResults.toString();
 					break;
 
 				// ------------------------
@@ -396,6 +402,9 @@ public class Algorithmstour {
 	}
 	
 	
+	
+	
+	
 	/*
 	Purpose: To generate all permutations and check which has the lowest weight
 	
@@ -403,8 +412,35 @@ public class Algorithmstour {
 	*/
 	public static List<Integer> checkAllPermutations(int n) {
 		
-		// If we even need this...not sure how to store the permutations yet
 		List<Integer> results = new ArrayList<>();
+		
+		if (n == 1) {
+			results.add(n);
+			
+		} else {
+			
+			for (int i = 1; i < n; i++) {
+				
+				// Recursive call
+				checkAllPermutations(n-1);
+				
+				// If n is odd
+				if (n % 2 != 0) {
+					
+					//swap A[1] and A[n] 
+					int temp = perms.get(0);
+					perms.add(0, perms.get(n));
+					perms.add(n, temp);
+					
+				} else {
+					
+					//swap A[i] and A[n]
+					int temp = perms.get(i);
+					perms.add(i, perms.get(n));
+					perms.add(n, temp);
+				}
+			}
+		}
 		return results;
 	}
 	
@@ -438,21 +474,22 @@ public class Algorithmstour {
 	/*
 	Purpose: Find the optimal route
 	*/
-	public static String[] findOptimalRoute(AdjMatrix tourGraph) {
-
-		// Get permutations
-		int[] permutations = permutate(tourGraph.getMatrix().length);
-
-
-		// Initialize smallest found value
-		int smallest = Integer.MAX_VALUE;
-		// LOOP thru permutations
-		for (int i = 0; i < permutations.size(); i++) {
-			// If this permutation is smaller than smallest
-			if (sumArray(permutations.get(i)) < smallest) 
-				
-		}	
-	}
+//	public static String[] findOptimalRoute(AdjMatrix tourGraph) {
+//
+//		// Get permutations
+//		List<Integer> permutations = checkAllPermutations(tourGraph.getMatrix().length);
+//
+//		// Initialize smallest found value
+//		int smallest = Integer.MAX_VALUE;
+//		
+//		// LOOP thru permutations
+//		for (int i = 0; i < permutations.size(); i++) {
+//			// If this permutation is smaller than smallest
+//			if (sumArray(permutations.get(i)) < smallest) 
+//				
+//		}	
+//	}
+	
 	
 	public static int sumArray(int[] array) {
 		int sum = 0;
