@@ -10,8 +10,8 @@ https://docs.google.com/document/d/18K3Xmr4B9mN02K525hkjJeEoXWnh6NqYuYJC-IPQ2XU/
 
 package algorithmstour;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -149,6 +149,7 @@ public class Algorithmstour {
 					System.out.println("This graph is connected!");
 					System.out.println("");
 					
+					
 					// Find optimal route
 					int[] testArray = {1,2,3};
 					checkAllPermutations(testArray, numBuildings);
@@ -157,10 +158,7 @@ public class Algorithmstour {
 					String response = in.next();
 					if (response.equalsIgnoreCase("Y")) {
 						for (int i = 0; i < perms.size(); i++) {
-							int[] accessedArray = perms.get(i);
-							for (int j = 0; j < accessedArray.length; j++) {
-								System.out.print(accessedArray[j]);
-							}
+							System.out.println(Arrays.toString(perms.get(i)));
 						}
 					}
 					
@@ -425,12 +423,9 @@ public class Algorithmstour {
 	*/
 	public static void checkAllPermutations(int[] a, int n) {
 		
-		
 		if (n == 1) {
-			perms.add(a);
-			
+			perms.add(Arrays.copyOf(a, a.length));
 		} else {
-			
 			for (int i = 0; i < n; i++) {
 				
 				// Recursive call
@@ -439,14 +434,11 @@ public class Algorithmstour {
 				// If n is odd
 				if (n % 2 != 0) {
 					
-					//swap A[1] and A[n] 
 					int temp = a[0];
 					a[0] = a[n-1];
 					a[n-1] = temp;
 					
 				} else {
-					
-					//swap A[i] and A[n]
 					int temp = a[i];
 					a[i] = a[n-1];
 					a[n-1] = temp;
