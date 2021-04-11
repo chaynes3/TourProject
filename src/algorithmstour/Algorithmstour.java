@@ -419,7 +419,7 @@ public class Algorithmstour {
 			
 		} else {
 			
-			for (int i = 1; i < n; i++) {
+			for (int i = 1; i <= n; i++) {
 				
 				// Recursive call
 				checkAllPermutations(n-1);
@@ -428,8 +428,8 @@ public class Algorithmstour {
 				if (n % 2 != 0) {
 					
 					//swap A[1] and A[n] 
-					int temp = perms.get(0);
-					perms.add(0, perms.get(n));
+					int temp = perms.get(1);
+					perms.add(1, perms.get(n));
 					perms.add(n, temp);
 					
 				} else {
