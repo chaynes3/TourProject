@@ -1,8 +1,12 @@
 # TourProject
 
-This was a project completed while pursuing my undergraduate degree in Computer Science from FLorida Southern College.  The assignment comes from the required algorithms course <b><i>and was completed in groups of two</i></b>. 
+### PURPOSE
 
-**Documentation:** https://docs.google.com/document/d/18K3Xmr4B9mN02K525hkjJeEoXWnh6NqYuYJC-IPQ2XU/edit?usp=sharing
+This was a project completed while pursuing my undergraduate degree in Computer Science from FLorida Southern College.  The assignment comes from the required algorithms course ***and was completed in groups of two***.
+
+--------------------
+
+Assignment Documents: https://docs.google.com/document/d/18K3Xmr4B9mN02K525hkjJeEoXWnh6NqYuYJC-IPQ2XU/edit?usp=sharing
 
 Assignment Instructions:
 
